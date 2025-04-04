@@ -1,0 +1,12 @@
+/* 点击圆圈部分，可自己定义动画和边框宽度大小等 */
+.click-circle {
+    position: fixed;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid;
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+    pointer-events: none;
+}

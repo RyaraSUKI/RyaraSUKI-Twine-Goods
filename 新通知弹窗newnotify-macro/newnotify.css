@@ -1,0 +1,36 @@
+/* 通知弹窗宏部分 */
+#notify-container {
+    position: fixed;
+    top: 2em;
+    right: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    max-width: 20em;
+}
+
+/*通知元素部分，可自行修改边框、配色*/
+.notify-item {
+    display: block;
+    width: 16em;
+    padding: 0.5em;
+    border: 3px solid;
+    border-radius: 4px;
+    color: #e0e0e0;
+    background-color: #505050;
+    border-color: #b0b0b0;
+    position: relative;
+    right: -20em;
+    opacity: 0;
+    transition: right 0.5s ease-in-out, opacity 0.5s;
+}
+
+.notify-item.open {
+    right: 0;
+    opacity: 1;
+}
+
+.notify-item.close {
+    right: -20em;
+    opacity: 0;
+}
