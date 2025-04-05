@@ -9,4 +9,6 @@
     transform: scale(1);
     transition: transform 0.6s ease-out, opacity 0.6s ease-out;
     pointer-events: none;
+    z-index: 9999;
+    /* 保证圆圈显示在最顶层 */
 }
