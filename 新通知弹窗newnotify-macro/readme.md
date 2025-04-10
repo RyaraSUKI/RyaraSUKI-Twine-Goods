@@ -8,8 +8,8 @@
 
 ## 介绍
 
-原版的通知宏提供了一个名为"<<notify>>"的宏部件，用于生成一条从界面右上角向左弹出按一定时间显示后收回的通知弹窗
-但是，原版只是简单的生成了一个通知的div标签，这就导致了多条"<<notify>>"同时生效时，弹窗重叠的问题
+原版的通知宏提供了一个名为 `<<notify>>` 的宏部件，用于生成一条从界面右上角向左弹出按一定时间显示后收回的通知弹窗
+但是，原版只是简单的生成了一个通知的div标签，这就导致了多条 `<<notify>>` 同时生效时，弹窗重叠的问题
 下面是原版文档中的提示：
 > [!DANGER] Note that giving the player unlimited control over these notifications, or trying to show several at once or right after each other will cause them to trip over themselves as they try to animate, so try to keep them spaced out, and don't assign them to links or buttons you expect the player to press repeatedly.<br>
 [!注意]让玩家无限制地控制这些通知，或者尝试同时或彼此紧接地显示多个通知，都会导致弹窗在尝试生成动画时被自己重叠，所以尽量让每个通知保持间隔，不要将它们分配给你希望玩家反复按下的链接或按钮。
@@ -17,7 +17,7 @@
 ## 更改思路
 
 - 通过创建一个容器，将通知弹窗分为单独的元素，“装在”容器内，实现多条通知不重叠
-- 引入通知队列，为每条通知弹窗事件添加队列延时，从而支持多条通知同时管理，依次展示，避免多个<<notify>>同时存在时弹窗元素合并。
+- 引入通知队列，为每条通知弹窗事件添加队列延时，从而支持多条通知同时管理，依次展示，避免多个 `<<notify>>` 同时存在时弹窗元素合并。
 - 进一步增强动画， ~~找GPT问思路后~~ 在css上新增入场/退场动画，并添加元素上滑动画，使得通知弹窗流畅顺滑~
 - 新美化了原版css样式，增加圆角和边框，可以自行修改
 
@@ -205,5 +205,11 @@
 
 附件内，.min.js为压缩版本，可以有效减小体积
 
-用法：<<notify 停留时间（单位s）>> 内容 <</notify>>， **记得加闭合标签** ！
+用法：
+
+```
+<<notify 停留时间（单位s）>> 内容 <</notify>>
+```
+
+**记得加闭合标签** !
 
