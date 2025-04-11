@@ -19,7 +19,7 @@ SugarCube2 ModLoader是一个适用于方糖的模组加载管理框架，由[Ly
 
 现在，通过ModLoader提供的jQuery启动方法修改最新版SugarCube2的注入点，我们使得这个强大的框架可以在所有以SugarCube2为故事格式的项目上运行。
 
-⭐  通用版故事格式2.37.3版本的[发布地址](https://github.com/RyaraSUKI/sugarcube-2-modloader/releases/tag/v2.37.3-modloader)
+⭐  通用版故事格式2.37.3版本的[发布地址](https://github.com/RyaraSUKI/sugarcube-2-modloader-orig/releases/tag/v2.37.3-modloader)
 
 ## 接下来的步骤
 接下来，请移步下一个教程，学习如何为你的方糖项目接入ModLoader吧！

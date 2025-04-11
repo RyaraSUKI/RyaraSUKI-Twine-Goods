@@ -2,7 +2,7 @@
 
 ⭐  主要功能：并行向下堆叠通知弹窗、通知宏和弹窗一一对应、完整弹出收回队列上滑动画
 
-⭐  [跳转到下载引用部分](##使用)，请确保css和js都完整引入！
+⭐  [跳转到下载引用部分](#使用)，请确保css和js都完整引入！
 
 ⭐  这是基于Chapel大佬的[自定义通知宏](https://twinelab.net/custom-macros-for-sugarcube-2/#/notify-macro)改造的分支，感谢[ChapelR](https://github.com/ChapelR)的贡献！
 

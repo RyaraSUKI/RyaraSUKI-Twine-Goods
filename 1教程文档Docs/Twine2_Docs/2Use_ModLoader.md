@@ -15,7 +15,7 @@
 
 ## **获得使用修改版方糖编译后的HTML文件**
 
-⭐  通用版故事格式2.37.3版本的[发布地址](https://github.com/RyaraSUKI/sugarcube-2-modloader/releases/tag/v2.37.3-modloader)
+⭐  通用版故事格式2.37.3版本的[发布地址](https://github.com/RyaraSUKI/sugarcube-2-modloader-orig/releases/tag/v2.37.3-modloader)
 
 ### **使用Twine2软件发布原版HTML**
 
@@ -39,11 +39,11 @@ TweeGo是Twine引擎网页游戏的命令行编译工具，可以将分散的文
 ```
 tweego -o 项目文件夹/你的游戏/twee,js,css文件所在的文件夹
 ```
-### **注入Modloader**
+## **注入Modloader**
 
 > 请随时查阅由ModLoadet提供的[文档](https://github.com/Lyoko-Jeremie/sugarcube-2-ModLoader) 
 
-注入前，请确保HTML原文件使用了[修改版的SugarCube2格式](https://github.com/RyaraSUKI/sugarcube-2-modloader/releases/tag/v2.37.3-modloader)编译
+注入前，请确保HTML原文件使用了[修改版的SugarCube2格式](https://github.com/RyaraSUKI/sugarcube-2-modloader-orig/releases/tag/v2.37.3-modloader)编译
 
 下面提供注入Modloader的步骤（以Linux为例）：
 
