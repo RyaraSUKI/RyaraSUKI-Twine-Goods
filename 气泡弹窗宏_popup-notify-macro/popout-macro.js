@@ -1,53 +1,55 @@
-/* Popout-Macro v1.0.3 By RyaraSUKI
-合并了改造版的Chapel's notify macro, 原notify作为popour的"side"属性，但原notify的的宏和接口仍可使用
-参数定义乱七八糟但是缝缝补补又可以用就行 
-*/
-
+/**
+ * Popout-Macro v1.0.3 - 弹窗通知系统
+ * By RyaraSUKI
+ * 合并了改造版的 Chapel's notify macro，原 notify 作为 popout 的 "side" 属性，
+ * 但原 notify 的宏和接口仍保持兼容
+ * @version 1.0.3
+ */
 (function () {
-    const DEFAULT_DURATION = 2000; // 默认显示时间
-    const QUEUE_DELAY = 150;       // side(原notify)队列间隔
+    /** @constant {number} 默认显示时间（毫秒） */
+    const DEFAULT_DURATION = 2000;
+    /** @constant {number} side 类型通知的队列间隔时间（毫秒） */
+    const QUEUE_DELAY = 150;
 
-    // 一样，创建popout的top顶部与bottom底部容器
+    // 初始化容器
     const $topContainer = $('<div id="popout-container" class="top"></div>');
     const $bottomContainer = $('<div id="popout-container" class="bottom"></div>');
     $(document.body).append($topContainer, $bottomContainer);
 
-    // side样式容器（原notify）
+    // side 样式容器（原 notify）
     const $sideContainer = $('<div id="notify-container"></div>');
     $(document.body).append($sideContainer);
 
-    // 通知队列（原notify）
+    /* 通知队列（原 notify） */
     const notifyQueue = [];
+    /* 标记当前是否有通知正在显示 */
     let isNotifying = false;
 
-/*
-     - 创建 popout 弹窗 top/bottom
-     - createPopout(
-     - {string} message - 内容文本
-     - {number} duration - 停滞时间
-     - {string} position - 显示位置 "top"/"bottom"
-     - {string} clickScript - 点击时执行获取的JavaScript
-     - )
-*/
-
-    function createPopout(message, duration, position, clickScript) {
+    /**
+     * 创建 popout 弹窗（top/bottom 类型）
+     * @param {string} message - 显示内容文本
+     * @param {number} [duration=DEFAULT_DURATION] - 显示持续时间（毫秒）
+     * @param {'top'|'bottom'} [position='top'] - 弹窗显示位置
+     * @param {string} [clickScript] - 点击时执行的 JavaScript 代码
+     */
+    function createPopout(message, duration = DEFAULT_DURATION, position = 'top', clickScript) {
         const $container = position === 'bottom' ? $bottomContainer : $topContainer;
         const $item = $('<div class="popout-item"></div>').wiki(message);
 
-        // 点击事件 JavaScript 感谢GPT让我知道还有这玩意可以实现执行js
+        // 绑定点击事件
         if (clickScript) {
             $item.on('click', () => {
                 try {
                     Scripting.evalJavaScript(clickScript);
                 } catch (e) {
-                    console.error('[Popout Error] 气泡弹窗点击代码执行错误：', e);
+                    console.error('[Popout Error] 弹窗点击代码执行错误：', e);
                 }
             });
         }
 
         $container.append($item);
 
-        // 动画效果：顶部为淡入（css类.show实现），底部为滑动（jQuery动画slideDown实现）
+        // 动画效果
         if (position === 'bottom') {
             $item.hide().slideDown(300, () => $item.addClass('show'));
         } else {
@@ -55,7 +57,7 @@
             $item.addClass('show');
         }
 
-        // 延迟移除，动画效果；slideUp实现滑动动画
+        // 延迟移除
         setTimeout(() => {
             $item.removeClass('show');
             setTimeout(() => {
@@ -64,7 +66,7 @@
         }, duration);
     }
 
-    // 处理 side （原notify）通知队列
+    // 处理 side 类型通知队列
     function processQueue() {
         if (notifyQueue.length === 0) {
             isNotifying = false;
@@ -82,13 +84,13 @@
             .addClass(classList)
             .wiki(ev.message);
 
-        // notify 的点击事件
+        // 绑定点击事件
         if (ev.clickScript) {
             $item.on('click', () => {
                 try {
                     Scripting.evalJavaScript(ev.clickScript);
                 } catch (e) {
-                    console.error('[Popout (side/notify) Error] 气泡弹窗(side/notify)点击代码执行错误：', e);
+                    console.error('[Popout (side) Error] 侧边弹窗点击代码执行错误：', e);
                 }
             });
         }
@@ -98,7 +100,7 @@
 
         setTimeout(() => $item.addClass('open'), 20);
 
-        // 延时关闭，动画：一样slideUp
+        // 延时关闭
         setTimeout(() => {
             $item.addClass('close');
             setTimeout(() => {
@@ -106,13 +108,18 @@
             }, 500);
         }, ev.duration || DEFAULT_DURATION);
 
-        // 上一条退出，继续处理队列
+        // 处理下一条通知
         setTimeout(processQueue, QUEUE_DELAY);
     }
 
-     // 通知触发函数（原notify/side属性），同时用于接口setup.notify
-     
-    function notify(message, duration, classes, clickScript) {
+    /**
+     * 触发通知（原 notify/side 属性）
+     * @param {string} message - 通知内容
+     * @param {number} [duration=DEFAULT_DURATION] - 显示持续时间（毫秒）
+     * @param {string|string[]} [classes] - 要添加的 CSS 类
+     * @param {string} [clickScript] - 点击时执行的 JavaScript 代码
+     */
+    function notify(message, duration = DEFAULT_DURATION, classes = '', clickScript) {
         if (typeof message !== 'string') return;
 
         $(document).trigger({
@@ -124,7 +131,7 @@
         });
     }
 
-    // 绑定:notify事件，触发时进入队列
+    // 绑定 :notify 事件
     $(document).on(':notify', (ev) => {
         if (ev.message && typeof ev.message === 'string') {
             notifyQueue.push(ev);
@@ -132,13 +139,14 @@
         }
     });
 
-/*
-     - popout 宏定义（统一接口setup.popout）
-     - 用法：<<popout 停滞时间（单位毫秒ms） "位置（top/bottom/side）" "点击JavaScript脚本字符串">> 内容 <</popout>>
-     - 属性参数可乱序：停滞时间、位置（top/bottom/side）、点击脚本（JavaScript字符串）
-     - 例子 <<popout 3000 "top" "UIbar.unstow()">>顶部弹下停滞3000毫秒点击展开侧边栏<</popout>>
-     - 记得闭合！
-*/
+    /**
+     * popout 宏定义
+     * 用法：<<popout 持续时间 "位置" "点击脚本">>内容<</popout>>
+     * @example
+     * <<popout 3000 "top" "UIbar.unstow()">>
+     *   顶部弹窗，显示3000毫秒，点击展开侧边栏
+     * <</popout>>
+     */
     Macro.add('popout', {
         tags: null,
         handler() {
@@ -147,7 +155,7 @@
             let position = 'top';
             let clickScript = '';
 
-            // 简单获取属性参数 duration是数值 position是固定字符串 clickScript是字符串
+            // 解析参数
             for (const arg of this.args) {
                 if (typeof arg === 'number') {
                     duration = arg;
@@ -160,7 +168,6 @@
 
             if (!message) return;
 
-            // 定义，如果是 side ，则使用notify方式
             if (position === 'side') {
                 notify(message, duration, '', clickScript);
             } else {
@@ -169,10 +176,10 @@
         }
     });
 
-/*
-     - notify 宏定义（保留用于兼容，没优化过数值获取方法，接口setup.notify）
-     - 用法：<<notify 停滞时间 "JavaScript脚本">> 内容 <</notify>>
-*/
+    /**
+     * notify 宏定义（兼容旧版）
+     * @deprecated 建议使用 popout 宏代替
+     */
     Macro.add('notify', {
         tags: null,
         handler() {
@@ -194,8 +201,15 @@
         }
     });
 
-    // 定义接口，setup.notify和setup.popout，你知道怎么用：)
+    // 设置接口
     setup.notify = notify;
+    /**
+     * 全局 popout 接口
+     * @param {string} message - 显示内容
+     * @param {number} [duration] - 显示时间
+     * @param {'top'|'bottom'|'side'} [position='top'] - 显示位置
+     * @param {string} [clickScript] - 点击脚本
+     */
     setup.popout = (message, duration, position = 'top', clickScript = '') => {
         if (position === 'side') {
             notify(message, duration, '', clickScript);
